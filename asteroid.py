@@ -8,6 +8,7 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)
 
         self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
+        
     
     def draw (self, screen):
         pygame.draw.circle(screen, self.color, self.position, self.radius)
@@ -18,8 +19,13 @@ class Asteroid(CircleShape):
     def split (self):
         self.kill()
         
+        scoring = 0
+
+        if self.radius != 0:
+            scoring = 120/self.radius
+        
         if self.radius < ASTEROID_MIN_RADIUS:
-            return
+            return scoring 
         
         else:
             log_event("asteroid_split")
@@ -36,3 +42,5 @@ class Asteroid(CircleShape):
 
             asteroid_01.velocity = velocity_01 * 1.2
             asteroid_02.velocity = velocity_02 * 1.2
+
+        return scoring

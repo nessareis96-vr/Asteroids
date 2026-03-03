@@ -1,5 +1,6 @@
 import pygame
 import sys
+pygame.font.init()
 from constants import *
 from logger import log_state
 from logger import log_event
@@ -8,6 +9,8 @@ from asteroid import *
 from asteroidfield import *
 from circleshape import *
 from shot import *
+
+font = pygame.font.SysFont("consolas", 28)
 
 def main():
     
@@ -45,6 +48,8 @@ def main():
 
     Shot.containers = (shots, updatable, drawable)
 
+    scoring = 0
+
     while True:
         log_state()
 
@@ -64,12 +69,18 @@ def main():
             for shot in shots:
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
-                    asteroid.split()
+                    scoring += asteroid.split()
                     shot.kill()
 
-        # screen.fill("black") 
         screen.blit(BG,(0,0))
+
+        score_text = font.render(f"Score: {scoring}", True, (255, 255, 255), (0, 0, 0))
         
+        text_rect = score_text.get_rect()
+        text_rect.topright = (screen.get_width() - 10, 10)
+
+        screen.blit(score_text, text_rect)
+
         for draw in drawable:
             draw.draw(screen)
 
