@@ -40,7 +40,7 @@ def main():
 
     Asteroid.containers = (asteroids, updatable, drawable)
 
-    AsteroidField.containers = (updatable)
+    AsteroidField.containers = (updatable,)
 
     asteroid_field = AsteroidField()
 
@@ -70,6 +70,7 @@ def main():
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
                     scoring += asteroid.split()
+                    print("HIT de asteroid em:", asteroid.position, "raio:", asteroid.radius)
                     shot.kill()
 
         screen.blit(BG,(0,0))
