@@ -12,6 +12,8 @@ from shot import *
 
 font = pygame.font.SysFont("consolas", 28)
 
+font_game_over = pygame.font.SysFont("consolas", 60)
+
 def main():
     
     pygame.init()
@@ -50,6 +52,8 @@ def main():
 
     scoring = 0
 
+    lives = 5
+
     while True:
         log_state()
 
@@ -59,15 +63,21 @@ def main():
 
         updatable.update(dt)
 
+        game_over_text = font_game_over.render(f"Game Over!", True, (255, 255, 255), (0, 0, 0))
+
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 if player.shield_active:
                     player.shield_active = False
                     asteroid.kill()  # ou split()
                 else:
-                    log_event("player_hit")
-                    print("Game over!")
-                    sys.exit()
+                    if lives > 1:
+                        lives -= 1
+                        asteroid.kill()
+                    else:
+                        log_event("player_hit")
+                        print("Game over!")
+                        sys.exit()
 
         for asteroid in asteroids:
             for shot in shots:
@@ -83,11 +93,15 @@ def main():
         screen.blit(BG,(0,0))
 
         score_text = font.render(f"Score: {scoring}", True, (255, 255, 255), (0, 0, 0))
+
+        lives_text = font.render(f"Lives: {lives}", True, (255, 255, 255), (0, 0, 0))
         
         text_rect = score_text.get_rect()
         text_rect.topright = (screen.get_width() - 10, 10)
 
         screen.blit(score_text, text_rect)
+
+        screen.blit(lives_text, (10, 10))
         
         for draw in drawable:
             draw.draw(screen)
