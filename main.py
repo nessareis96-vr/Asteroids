@@ -67,7 +67,8 @@ def main():
                     asteroid.split()
                     shot.kill()
 
-        screen.fill("black") 
+        # screen.fill("black") 
+        screen.blit(BG,(0,0))
         
         for draw in drawable:
             draw.draw(screen)
