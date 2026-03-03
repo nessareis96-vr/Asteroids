@@ -1,6 +1,7 @@
 from constants import *
 from circleshape import *
 from shot import *
+from asteroid import *
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -9,6 +10,9 @@ class Player(CircleShape):
         
         self.rotation = 0
         self.shoot_cooldown = 0     
+
+        self.shield_active = False
+        self.last_shield_score = 0  # controla quando já ganhou escudo
   
     def triangle(self):
         
@@ -21,6 +25,9 @@ class Player(CircleShape):
 
     def draw (self, screen):
         pygame.draw.polygon(screen, "pink", self.triangle())
+        
+        if self.shield_active:
+            pygame.draw.circle(screen, "gray", self.position, SHIELD_RADIUS, LINE_WIDTH)
 
     def rotate (self,dt):
         self.rotation += PLAYER_TURN_SPEED * dt

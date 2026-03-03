@@ -61,9 +61,13 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                log_event("player_hit")
-                print("Game over!")
-                sys.exit()
+                if player.shield_active:
+                    player.shield_active = False
+                    asteroid.kill()  # ou split()
+                else:
+                    log_event("player_hit")
+                    print("Game over!")
+                    sys.exit()
 
         for asteroid in asteroids:
             for shot in shots:
@@ -71,6 +75,10 @@ def main():
                     log_event("asteroid_shot")
                     scoring += asteroid.split()
                     shot.kill()
+
+        if scoring // 100 > player.last_shield_score:
+            player.shield_active = True
+            player.last_shield_score = scoring // 100
 
         screen.blit(BG,(0,0))
 
@@ -80,7 +88,7 @@ def main():
         text_rect.topright = (screen.get_width() - 10, 10)
 
         screen.blit(score_text, text_rect)
-
+        
         for draw in drawable:
             draw.draw(screen)
 
