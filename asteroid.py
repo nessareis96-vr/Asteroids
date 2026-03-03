@@ -9,12 +9,25 @@ class Asteroid(CircleShape):
 
         self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
         
+        self.has_entered_screen = False
     
     def draw (self, screen):
         pygame.draw.circle(screen, self.color, self.position, self.radius)
     
     def update (self, dt):
+
         self.position += self.velocity*dt
+
+        if ( 0 <= self.position.x + self.radius  <= SCREEN_WIDTH and 0 <= self.position.y + self.radius <= SCREEN_HEIGHT ):
+            self.has_entered_screen = True
+
+        if self.has_entered_screen:
+        
+            if self.position.x - self.radius <= 0 or self.position.x + self.radius >= SCREEN_WIDTH:
+                self.velocity.x *= -1
+
+            if self.position.y - self.radius <= 0 or self.position.y + self.radius >= SCREEN_HEIGHT:
+                self.velocity.y *= -1
 
 
     def split (self):
