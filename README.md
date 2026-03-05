@@ -1,6 +1,6 @@
 # Asteroids 
 
-
+![Asteroids - Gif](Asteroids.gif)
 
 ## [🇧🇷]  Sobre o Projeto
 
@@ -47,4 +47,3 @@ This project was developed as part of the Boot.dev development track. The implem
 
 **Boundary collision physics update:** asteroids now detect screen edge collisions and invert their velocity vectors upon impact, preventing them from permanently leaving the visible play area.
 
-![Asteroids - Screen Shot](Asteroids_2026.png)
